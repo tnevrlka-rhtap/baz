@@ -97,7 +97,7 @@ jobs:
             COSIGN_SECRET_KEY: `${{ secrets.COSIGN_SECRET_KEY }}`, 
           };
 
-          const missingSecrets = Object.entries(Object.assign(vars, secrets).filter(([ name, value ]) => {
+          const missingSecrets = Object.entries(Object.assign(vars, secrets)).filter(([ name, value ]) => {
             if (value.length === 0) {
               core.error(`Secret "${name}" is not set`);
               return true;
