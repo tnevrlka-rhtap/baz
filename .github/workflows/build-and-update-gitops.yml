@@ -52,7 +52,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-    - ".github/workflows/build-and-update.gitops.yml"
+    - ".github/workflows/build-and-update-gitops.yml"
 
 jobs:
   tssc-ci-cd:
