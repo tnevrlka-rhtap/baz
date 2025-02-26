@@ -1,4 +1,4 @@
-# Generated from templates/source-repo/build-and-update-gitops.yml.njk. Do not edit directly.
+# Generated from . Do not edit directly.
 
 # 💁 The Gitops Starter workflow will:
 # - Checkout your repository
@@ -11,31 +11,33 @@ env:
   CI_TYPE: github
 
   # 🖊️ EDIT to change the image registry settings.
-  # Registries such as GHCR, Quay.io, and Docker Hub are supported.
-  IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY }}
 
-  ROX_API_TOKEN: ${{ secrets.ROX_API_TOKEN }}
-  ROX_CENTRAL_ENDPOINT: ${{ secrets.ROX_CENTRAL_ENDPOINT }}
-  GITOPS_AUTH_PASSWORD: ${{ secrets.GITOPS_AUTH_PASSWORD }}
-  # Uncomment this when using Gitlab
-  # GITOPS_AUTH_USERNAME: ${{ secrets.GITOPS_AUTH_USERNAME }}
+  # Vars
+  ROX_CENTRAL_ENDPOINT: ${{ vars.ROX_CENTRAL_ENDPOINT }}
+  # GITOPS_AUTH_USERNAME: ${{ vars.GITOPS_AUTH_USERNAME }}
   # Set this to the user for your specific registry
-  IMAGE_REGISTRY_USER: ${{ secrets.IMAGE_REGISTRY_USER }}
-  # Set this password for your specific registry
-  IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+  # IMAGE_REGISTRY_USER: ${{ vars.IMAGE_REGISTRY_USER }}
   # Set this only when using an external Rekor instance
-  REKOR_HOST: ${{ secrets.REKOR_HOST }}
+  # REKOR_HOST: ${{ vars.REKOR_HOST }}
   # Set this only when using an external TUF instance
-  TUF_MIRROR: ${{ secrets.TUF_MIRROR }}
-  # QUAY_IO_CREDS_USR: ${{ secrets.QUAY_IO_CREDS_USR }}
+  # TUF_MIRROR: ${{ vars.TUF_MIRROR }}
+  # QUAY_IO_CREDS_USR: ${{ vars.QUAY_IO_CREDS_USR }}
+  # ARTIFACTORY_IO_CREDS_USR: ${{ vars.ARTIFACTORY_IO_CREDS_USR }}
+  # NEXUS_IO_CREDS_USR: ${{ vars.NEXUS_IO_CREDS_USR }}
+  COSIGN_PUBLIC_KEY: ${{ vars.COSIGN_PUBLIC_KEY }}
+  # Secrets
+  ROX_API_TOKEN: ${{ secrets.ROX_API_TOKEN }}
+  GITOPS_AUTH_PASSWORD: ${{ secrets.GITOPS_AUTH_PASSWORD }}
+  # Set this password for your specific registry
+  # IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
   # QUAY_IO_CREDS_PSW: ${{ secrets.QUAY_IO_CREDS_PSW }}
-  # ARTIFACTORY_IO_CREDS_USR: ${{ secrets.ARTIFACTORY_IO_CREDS_USR }}
   # ARTIFACTORY_IO_CREDS_PSW: ${{ secrets.ARTIFACTORY_IO_CREDS_PSW }}
-  # NEXUS_IO_CREDS_USR: ${{ secrets.NEXUS_IO_CREDS_USR }}
   # NEXUS_IO_CREDS_PSW: ${{ secrets.NEXUS_IO_CREDS_PSW }}
   COSIGN_SECRET_PASSWORD: ${{ secrets.COSIGN_SECRET_PASSWORD }}
   COSIGN_SECRET_KEY: ${{ secrets.COSIGN_SECRET_KEY }}
-  COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+
+  # Registries such as GHCR, Quay.io, and Docker Hub are supported.
+  IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY }}
 
   # 🖊️ EDIT to specify custom tags for the container image, or default tags will be generated below.
   IMAGE_TAGS: ""
@@ -65,34 +67,36 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
+          const vars = {
+            ROX_CENTRAL_ENDPOINT: `${{ var.undefined }}`, 
+            /*GITOPS_AUTH_USERNAME: `${{ var.undefined }}`, */
+            /* Set this to the user for your specific registry */
+            /*IMAGE_REGISTRY_USER: `${{ var.undefined }}`, */
+            /* Set this only when using an external Rekor instance */
+            /*REKOR_HOST: `${{ var.undefined }}`, */
+            /* Set this only when using an external TUF instance */
+            /*TUF_MIRROR: `${{ var.undefined }}`, */
+            /*QUAY_IO_CREDS_USR: `${{ var.undefined }}`, */
+            /*ARTIFACTORY_IO_CREDS_USR: `${{ var.undefined }}`, */
+            /*NEXUS_IO_CREDS_USR: `${{ var.undefined }}`, */
+            COSIGN_PUBLIC_KEY: `${{ var.undefined }}`, 
+          };
+
           const secrets = {
             IMAGE_REGISTRY: `${{ secrets.IMAGE_REGISTRY }}`,
 
             ROX_API_TOKEN: `${{ secrets.ROX_API_TOKEN }}`, 
-            ROX_CENTRAL_ENDPOINT: `${{ secrets.ROX_CENTRAL_ENDPOINT }}`, 
             GITOPS_AUTH_PASSWORD: `${{ secrets.GITOPS_AUTH_PASSWORD }}`, 
-            /* Uncomment this when using Gitlab */
-            /*GITOPS_AUTH_USERNAME: `${{ secrets.GITOPS_AUTH_USERNAME }}`, */
-            /* Set this to the user for your specific registry */
-            IMAGE_REGISTRY_USER: `${{ secrets.IMAGE_REGISTRY_USER }}`, 
             /* Set this password for your specific registry */
-            IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`, 
-            /* Set this only when using an external Rekor instance */
-            REKOR_HOST: `${{ secrets.REKOR_HOST }}`,
-            /* Set this only when using an external TUF instance */
-            TUF_MIRROR: `${{ secrets.TUF_MIRROR }}`,
-            /*QUAY_IO_CREDS_USR: `${{ secrets.QUAY_IO_CREDS_USR }}`, */
+            /*IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`, */
             /*QUAY_IO_CREDS_PSW: `${{ secrets.QUAY_IO_CREDS_PSW }}`, */
-            /*ARTIFACTORY_IO_CREDS_USR: `${{ secrets.ARTIFACTORY_IO_CREDS_USR }}`, */
             /*ARTIFACTORY_IO_CREDS_PSW: `${{ secrets.ARTIFACTORY_IO_CREDS_PSW }}`, */
-            /*NEXUS_IO_CREDS_USR: `${{ secrets.NEXUS_IO_CREDS_USR }}`, */
             /*NEXUS_IO_CREDS_PSW: `${{ secrets.NEXUS_IO_CREDS_PSW }}`, */
             COSIGN_SECRET_PASSWORD: `${{ secrets.COSIGN_SECRET_PASSWORD }}`, 
             COSIGN_SECRET_KEY: `${{ secrets.COSIGN_SECRET_KEY }}`, 
-            COSIGN_PUBLIC_KEY: `${{ secrets.COSIGN_PUBLIC_KEY }}`, 
-
           };
-          const missingSecrets = Object.entries(secrets).filter(([ name, value ]) => {
+
+          const missingSecrets = Object.entries(vars, ...secrets).filter(([ name, value ]) => {
             if (value.length === 0) {
               core.error(`Secret "${name}" is not set`);
               return true;
