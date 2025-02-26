@@ -16,7 +16,7 @@ env:
   ROX_CENTRAL_ENDPOINT: ${{ vars.ROX_CENTRAL_ENDPOINT }}
   # GITOPS_AUTH_USERNAME: ${{ vars.GITOPS_AUTH_USERNAME }}
   # Set this to the user for your specific registry
-  # IMAGE_REGISTRY_USER: ${{ vars.IMAGE_REGISTRY_USER }}
+  IMAGE_REGISTRY_USER: ${{ vars.IMAGE_REGISTRY_USER }}
   # Set this only when using an external Rekor instance
   # REKOR_HOST: ${{ vars.REKOR_HOST }}
   # Set this only when using an external TUF instance
@@ -29,7 +29,7 @@ env:
   ROX_API_TOKEN: ${{ secrets.ROX_API_TOKEN }}
   GITOPS_AUTH_PASSWORD: ${{ secrets.GITOPS_AUTH_PASSWORD }}
   # Set this password for your specific registry
-  # IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+  IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
   # QUAY_IO_CREDS_PSW: ${{ secrets.QUAY_IO_CREDS_PSW }}
   # ARTIFACTORY_IO_CREDS_PSW: ${{ secrets.ARTIFACTORY_IO_CREDS_PSW }}
   # NEXUS_IO_CREDS_PSW: ${{ secrets.NEXUS_IO_CREDS_PSW }}
@@ -72,7 +72,7 @@ jobs:
             ROX_CENTRAL_ENDPOINT: `${{ vars.ROX_CENTRAL_ENDPOINT }}`, 
             /*GITOPS_AUTH_USERNAME: `${{ vars.GITOPS_AUTH_USERNAME }}`, */
             /* Set this to the user for your specific registry */
-            /*IMAGE_REGISTRY_USER: `${{ vars.IMAGE_REGISTRY_USER }}`, */
+            IMAGE_REGISTRY_USER: `${{ vars.IMAGE_REGISTRY_USER }}`,
             /* Set this only when using an external Rekor instance */
             /*REKOR_HOST: `${{ vars.REKOR_HOST }}`, */
             /* Set this only when using an external TUF instance */
@@ -98,7 +98,7 @@ jobs:
             ROX_API_TOKEN: `${{ secrets.ROX_API_TOKEN }}`, 
             GITOPS_AUTH_PASSWORD: `${{ secrets.GITOPS_AUTH_PASSWORD }}`, 
             /* Set this password for your specific registry */
-            /*IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`, */
+            IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`,
             /*QUAY_IO_CREDS_PSW: `${{ secrets.QUAY_IO_CREDS_PSW }}`, */
             /*ARTIFACTORY_IO_CREDS_PSW: `${{ secrets.ARTIFACTORY_IO_CREDS_PSW }}`, */
             /*NEXUS_IO_CREDS_PSW: `${{ secrets.NEXUS_IO_CREDS_PSW }}`, */
